@@ -21,5 +21,18 @@
   allow="web-share; clipboard-write; fullscreen; downloads"
   referrerpolicy="no-referrer-when-downgrade"></iframe>
 <noscript>Activa JavaScript para usar Búscalo al Toque.</noscript>
+<script>
+/* Al cerrar sesión, la app pide recargar su marco: así vuelve al login sin salir de esta página
+   (si saliera a script.google.com, reaparecería el aviso de Google). */
+(function () {
+  var f = document.getElementById('app'), url = f.getAttribute('src');
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.buscalo === 'logout') {
+      f.src = 'about:blank';
+      setTimeout(function () { f.src = url; }, 50);
+    }
+  });
+})();
+</script>
 </body>
 </html>
